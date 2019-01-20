@@ -322,6 +322,9 @@ class PPMS(IEC60488):
             resp_term=';'
         )
         super(PPMS, self).__init__(transport, protocol)
+        
+        magnet = qd_magnet.HMPSU()
+
         self.advisory_number = Command(('ADVNUM?', Integer(min=0, max=999)))
         self.chamber = Command(
             'CHAMBER?',
@@ -339,14 +342,16 @@ class PPMS(IEC60488):
             )
         )
         self.sample_position = Command(('GETDAT? 8', Float))
+        #TODO Test if it still works, else:
         self.magnet_config = Command(
             'MAGCNF?',
             'MAGCNF',
             [Float] * 5 + [Integer, Integer]
         )
         if max_field is None:
-            max_field = self.magnet_config[0]
+            max_field = magnet.max_field#self.magnet_config[0]
 
+        #TODO Test if it needs to be run to update Display
         self.target_field = Command(
             'FIELD?',
             'FIELD',
@@ -395,6 +400,7 @@ class PPMS(IEC60488):
         ))
         self.revision = Command(('REV?', [String, String]))
 
+
     def levelmeter(self, rate):
         """Changes the measuring rate of the levelmeter.
 
@@ -414,11 +420,12 @@ class PPMS(IEC60488):
         self._write(('LEVELON', Enum('on', 'continuous', 'hourly', 'off')), rate)
 
     @property
+    #TODO
     def field(self):
-        """The field at sample position."""
-        # omit dataflag and timestamp
-        return self._query(('GETDAT? 4', (Integer, Float, Float)))[2]
-
+        #"""The field at sample position."""
+        ## omit dataflag and timestamp
+        #return self._query(('GETDAT? 4', (Integer, Float, Float)))[2]
+        return magnet.field()
     @property
     def system_status(self):
         """The system status codes."""
@@ -428,6 +435,7 @@ class PPMS(IEC60488):
             'timestamp': datetime.datetime.fromtimestamp(timestamp),
             # bit 0-3 represent the temperature controller status
             'temperature': STATUS_TEMPERATURE[status & 0xf],
+            #TODO Check if it produces errors
             # bit 4-7 represent the magnet status
             'magnet': STATUS_MAGNET[(status >> 4) & 0xf],
             # bit 8-11 represent the chamber status
@@ -571,6 +579,7 @@ class PPMS(IEC60488):
         :raises TypeError: if measure parameter is not callable.
 
         """
+        #TODO Test magnet_status command, else implement my own.
         if not hasattr(measure, '__call__'):
             raise TypeError('measure parameter not callable.')
         self.set_field(field, rate, approach='linear', mode=mode, wait_for_stability=False)
@@ -612,11 +621,14 @@ class PPMS(IEC60488):
             `False`).
 
         """
+        #TODO Test if magnet_config is still working. Else find equivalent Value in HMPSU Can list. Test System_Status['magnet'] might still work.
         self.target_field = field, rate, approach, mode
+        magnet.set_field(field, rate, approach, mode, wait_for_stability, delay)
+        #TODO magnet_config
         if wait_for_stability and self.system_status['magnet'].startswith('persist'):
             # Wait until the persistent switch heats up.
             time.sleep(self.magnet_config[5])
-
+        #Does this still work?
         while wait_for_stability:
             status = self.system_status['magnet']
             if status in ('persistent, stable', 'driven, stable'):
@@ -651,6 +663,7 @@ class PPMS(IEC60488):
         to a minimum value.
 
         """
+        magnet.shutdown()
         self._write('SHUTDOWN')
 
 

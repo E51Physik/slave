@@ -194,3 +194,9 @@ class HMPSU(Protocol):
     def execute(self):
         """ executes the magnet command with the variables set in set_field """
         self.write(self.node, 0x6003, 0x00, 1, 'b')
+
+    def shutdown(self):
+        """shutdown field and connection TOBE tested"""
+        self.write(self.node, 0x6003, 0x0, 0, 'b')
+        self.disconnect()
+        del self
