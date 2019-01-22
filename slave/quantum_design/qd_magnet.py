@@ -110,6 +110,9 @@ class Protocol:
         else:
             msgdata = None
         return msgdata
+    
+    def te(self):
+        print("te")
 
 
 
@@ -117,7 +120,7 @@ class Protocol:
 class HMPSU(Protocol):
     """ Class for the Quantum Design Hybrid Magnet Power Suply Unit. """
     def __init__(self):
-        super(Protcol).__init__()
+        super().__init__()
         self.node=6
         self.max_field = self.query(self.node, 0x600B, 0x01)
         self.BtoI_Ratio = self.query(self.node, 0x600B, 0x02)
