@@ -96,8 +96,8 @@ class Protocol:
 
         except Exception as e:
             print(e)
-
-   def encode(self, cobid, subid, data, dtype):
+            
+    def encode(self, cobid, subid, data, dtype):
         if dtype == 'f':
             msgdata = struct.pack('bbbbf', 0x23, int(hex(cobid)[0:2]+hex(cobid)[4:6],16), int(hex(cobid)[0:4],16), subid, data)
         elif dtype == 'b':
