@@ -127,7 +127,7 @@ STATUS_LINK = {
 }
 
 from slave.quantum_design import qd_magnet
-magnet = qd_magnet.HMPSU()
+#magnet = qd_magnet.HMPSU()
 
 class PPMS(IEC60488):
     """A Quantum Design Model 6000 PPMS.
@@ -316,6 +316,7 @@ class PPMS(IEC60488):
     def __init__(self, transport, max_field=None):
         # The PPMS uses whitespaces to separate data and semicolon to terminate
         # a message.
+        magnet = qd_magnet.HMPSU()
         protocol = slave.protocol.IEC60488(
             msg_data_sep=',',
             msg_term=';',
