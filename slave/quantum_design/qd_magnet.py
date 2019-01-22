@@ -118,8 +118,6 @@ class HMPSU(Protocol):
     def __init__(self):
         super().__init__()
         self.node=6
-        
-
         self.max_field = self.query(self.node, 0x600B, 0x01)
         self.BtoI_Ratio = self.query(self.node, 0x600B, 0x02)
         self.Inductance = self.query(self.node, 0x600B, 0x03)
@@ -132,7 +130,6 @@ class HMPSU(Protocol):
         self.conductance = self.query(self.node, 0x600B, 0x0A)
         self.resistance = self.query(self.node, 0x600B, 0x0B)
         self.Switch = self.query(self.node, 0x600C, 0x02)
-
         self.SwitchCoolTime = self.query(self.node, 0x600C, 0x02)
 
     def field(self):
