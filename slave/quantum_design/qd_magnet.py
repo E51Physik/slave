@@ -44,9 +44,8 @@ class Protocol:
                 else:
                     data = None
             return data
-
-         except Exception as e:
-             print(e)
+        except Exception as e:
+            print(e)
 
     def decode(self, msg):
         try:
