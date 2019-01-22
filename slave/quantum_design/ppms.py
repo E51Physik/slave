@@ -322,7 +322,7 @@ class PPMS(IEC60488):
             resp_data_sep=',',
             resp_term=';'
         )
-        super(PPMS, self).__init__(transport, protocol, magnet)
+        super(PPMS, self).__init__(transport, protocol)
         self.advisory_number = Command(('ADVNUM?', Integer(min=0, max=999)))
         self.chamber = Command(
             'CHAMBER?',
