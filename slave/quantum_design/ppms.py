@@ -12,6 +12,7 @@ from slave.driver import Command, CommandSequence, Driver
 from slave.types import Enum, Float, Integer, Register, String
 from slave.iec60488 import IEC60488
 import slave.protocol
+from slave.quantum_design.qd_magnet import HMPSU
 
 #: Temperature controller status code.
 STATUS_TEMPERATURE = {
@@ -126,7 +127,6 @@ STATUS_LINK = {
     29: 'User Mapped Item',
 }
 
-import qd_magnet
 
 class PPMS(IEC60488):
     """A Quantum Design Model 6000 PPMS.
@@ -315,7 +315,7 @@ class PPMS(IEC60488):
     def __init__(self, transport, max_field=None):
         # The PPMS uses whitespaces to separate data and semicolon to terminate
         # a message.
-        magnet = qd_magnet.HMPSU()
+        magnet = HMPSU()
         protocol = slave.protocol.IEC60488(
             msg_data_sep=',',
             msg_term=';',
