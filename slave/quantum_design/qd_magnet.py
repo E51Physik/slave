@@ -17,6 +17,7 @@ class Protocol:
             self.bitrate = 1000000
             self.bus = can.interfaces.usb2can.Usb2canBus(channel=self.channel, bitrate=self.bitrate)
         except Exception as e:
+            disconnect()
             print(e)
 
     def disconnect(self):
