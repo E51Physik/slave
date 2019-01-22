@@ -126,7 +126,7 @@ STATUS_LINK = {
     29: 'User Mapped Item',
 }
 
-import qd_magnet
+import slave.quantum_design.qd_magnet as qd_magnet
 
 class PPMS(IEC60488):
     """A Quantum Design Model 6000 PPMS.
