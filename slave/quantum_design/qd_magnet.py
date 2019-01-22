@@ -159,6 +159,7 @@ class HMPSU(Protocol):
                 float(field)
             #Testing required
             if abs(rate) >= self.max_rate_low and abs(rate) <= self.max_rate_high:
+                float(rate)
         except Exception as e:
             print("converstion went wrong", e)
 
