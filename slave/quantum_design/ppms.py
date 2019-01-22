@@ -127,6 +127,7 @@ STATUS_LINK = {
 }
 
 from slave.quantum_design import qd_magnet
+magnet = qd_magnet.HMPSU()
 
 class PPMS(IEC60488):
     """A Quantum Design Model 6000 PPMS.
@@ -323,7 +324,7 @@ class PPMS(IEC60488):
         )
         super(PPMS, self).__init__(transport, protocol)
         
-        magnet = qd_magnet.HMPSU()
+        #magnet = qd_magnet.HMPSU()
 
         self.advisory_number = Command(('ADVNUM?', Integer(min=0, max=999)))
         self.chamber = Command(
