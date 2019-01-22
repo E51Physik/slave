@@ -111,12 +111,6 @@ class Protocol:
             msgdata = None
         return msgdata
     
-    def te(self):
-        print("te")
-
-
-
-
 class HMPSU(Protocol):
     """ Class for the Quantum Design Hybrid Magnet Power Suply Unit. """
     def __init__(self):
