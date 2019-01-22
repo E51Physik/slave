@@ -621,7 +621,7 @@ class PPMS(IEC60488):
         """
         #TODO Test if magnet_config is still working. Else find equivalent Value in HMPSU Can list. Test System_Status['magnet'] might still work.
         self.target_field = field, rate, approach, mode
-        magnet.set_field(field, rate, approach, mode, wait_for_stability, delay)
+        self.magnet.set_field(field, rate, approach, mode, wait_for_stability, delay)
         #TODO magnet_config
         if wait_for_stability and self.system_status['magnet'].startswith('persist'):
             # Wait until the persistent switch heats up.
@@ -661,7 +661,7 @@ class PPMS(IEC60488):
         to a minimum value.
 
         """
-        magnet.shutdown()
+        self.magnet.shutdown()
         self._write('SHUTDOWN')
 
 
