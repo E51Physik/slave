@@ -17,7 +17,7 @@ class Protocol:
             self.bitrate = 1000000
             self.bus = can.interfaces.usb2can.Usb2canBus(channel=self.channel, bitrate=self.bitrate)
         except Exception as e:
-            disconnect()
+            self.disconnect()
             print(e)
 
     def disconnect(self):
@@ -31,7 +31,7 @@ class Protocol:
 
         """
         try:
-            msgdata = struct.pack('bbbbbbbb', 0x40, int(hex(cobid)[0:2]+hex(cobid)[4:6],1), int(hex(cobid)[0:4],16), subid, 0,0,0,0)
+            msgdata = struct.pack('bbbbbbbb', 0x40, int(hex(cobid)[0:2]+hex(cobid)[4:6],16), int(hex(cobid)[0:4],16), subid, 0,0,0,0)
             msg = can.Message(extended_id=False, arbitration_id=int(0x0600)+node, data=msgdata)
             self.bus.set_filters(filters=[{"can_id" : 0x0580, "can_mask":0xFFF0}])
 
@@ -39,11 +39,12 @@ class Protocol:
                 self.bus.send(msg)
                 ans = self.bus.recv(timeout=.1)
                 data = struct.unpack('bbbbbbbb', ans.data)
-                if cobid == data[2] + data[1] and  subid == data[3]:
+                if int(hex(cobid)[0:2]+hex(cobid)[4:6],16) == data[1] and int(hex(cobid)[0:4],16) == data[2] and  subid == data[3]:
                     data = self.decode(ans)
                     break
                 else:
                     data = None
+            print(data)
             return data
         except Exception as e:
             print(e)
@@ -88,7 +89,7 @@ class Protocol:
                 ans = self.bus.recv(timeout=.1)
 
                 data = struct.unpack('bbbbbbbb', ans.data)
-                if cobid == data[2] + data[1] and subid == data[3]:
+                if int(hex(cobid)[0:2]+hex(cobid)[4:6],16) == data[1] and int(hex(cobid)[0:4],16) == data[2] and  subid == data[3]:
                     recv = True
                     break
                 else:
@@ -189,3 +190,6 @@ class HMPSU(Protocol):
         self.write(self.node, 0x6003, 0x0, 0, 'b')
         self.disconnect()
         del self
+
+#magnet = HMPSU()
+#magnet.shutdown()
