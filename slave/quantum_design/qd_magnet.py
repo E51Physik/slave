@@ -118,7 +118,6 @@ class HMPSU(Protocol):
         self.node=6
         self.max_field = self.query(self.node, 0x600B, 0x01)
         self.BtoI_Ratio = self.query(self.node, 0x600B, 0x02)
-        
         self.Inductance = self.query(self.node, 0x600B, 0x03)
         self.max_rate_low = self.query(self.node, 0x600B, 0x04)
         self.max_rate_high = self.query(self.node, 0x600B, 0x05)
