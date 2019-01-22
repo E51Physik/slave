@@ -126,7 +126,7 @@ STATUS_LINK = {
     29: 'User Mapped Item',
 }
 
-from slave.quantum_design import qd_magnet
+from slave.quantum_design import qd_magnet as magnet
 
 class PPMS(IEC60488):
     """A Quantum Design Model 6000 PPMS.
@@ -315,15 +315,15 @@ class PPMS(IEC60488):
     def __init__(self, transport, max_field=None):
         # The PPMS uses whitespaces to separate data and semicolon to terminate
         # a message.
-        magnet = qd_magnet.HMPSU()
+        #magnet = qd_magnet.HMPSU()
         protocol = slave.protocol.IEC60488(
             msg_data_sep=',',
             msg_term=';',
             resp_data_sep=',',
             resp_term=';'
         )
-        super(PPMS, self).__init__(transport, protocol)
-        #self.advisory_number = Command(('ADVNUM?', Integer(min=0, max=999)))
+        super(PPMS, self).__init__(transport, protocol, magnet)
+        self.advisory_number = Command(('ADVNUM?', Integer(min=0, max=999)))
         self.chamber = Command(
             'CHAMBER?',
             'CHAMBER',
