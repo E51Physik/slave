@@ -323,9 +323,7 @@ class PPMS(IEC60488):
             resp_term=';'
         )
         super(PPMS, self).__init__(transport, protocol)
-        
         #magnet = qd_magnet.HMPSU()
-
         self.advisory_number = Command(('ADVNUM?', Integer(min=0, max=999)))
         self.chamber = Command(
             'CHAMBER?',
