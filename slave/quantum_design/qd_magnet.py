@@ -118,13 +118,13 @@ class HMPSU(Protocol):
     def __init__(self):
         super().__init__()
         self.node=6
-        """self.te(self.node)
-
-        #self.query(self.node,0x1000,0x0)
-        #self.query(self.node,0x2000,0x0)
-        #self.query(self.node,0x1008,0x0)
-        #self.query(self.node,0x1009,0x0)
-        #self.query(self.node,0x100a,0x0)"""
+        """
+        self.query(self.node,0x1000,0x0)
+        self.query(self.node,0x2000,0x0)
+        self.query(self.node,0x1008,0x0)
+        self.query(self.node,0x1009,0x0)
+        self.query(self.node,0x100a,0x0)
+        """
 
         self.max_field = self.query(self.node, 0x600B, 0x01)
         self.BtoI_Ratio = self.query(self.node, 0x600B, 0x02)
