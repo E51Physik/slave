@@ -149,7 +149,7 @@ class HMPSU(Protocol):
         """ Retruns the Status of the Magnet. """
         return self.query(self.node, 0x6000, 0x2)
 
-        def current(self):
+    def current(self):
         #Current in the switch?
         return self.query(self.node, 0x6000, 0x03)#, 'f')
 
