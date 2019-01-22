@@ -117,7 +117,7 @@ class HMPSU(Protocol):
     def __init__(self):
         super().__init__()
         self.node=6
-        self.te=1
+        self.reset()
         self.max_field = self.query(self.node, 0x600B, 0x01)
         self.BtoI_Ratio = self.query(self.node, 0x600B, 0x02)
         self.Inductance = self.query(self.node, 0x600B, 0x03)
