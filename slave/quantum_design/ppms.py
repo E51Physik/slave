@@ -315,7 +315,7 @@ class PPMS(IEC60488):
     def __init__(self, transport, max_field=None):
         # The PPMS uses whitespaces to separate data and semicolon to terminate
         # a message.
-        magnet = HMPSU()
+        self.magnet = HMPSU()
         protocol = slave.protocol.IEC60488(
             msg_data_sep=',',
             msg_term=';',
@@ -423,7 +423,7 @@ class PPMS(IEC60488):
         #"""The field at sample position."""
         ## omit dataflag and timestamp
         #return self._query(('GETDAT? 4', (Integer, Float, Float)))[2]
-        return magnet.field()
+        return self.magnet.field()
     @property
     def system_status(self):
         """The system status codes."""
