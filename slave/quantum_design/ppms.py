@@ -340,16 +340,16 @@ class PPMS(IEC60488):
             )
         )
         self.sample_position = Command(('GETDAT? 8', Float))
-        #TODO Test if it still works, else:
+        #still works may be obsolete
         self.magnet_config = Command(
             'MAGCNF?',
             'MAGCNF',
             [Float] * 5 + [Integer, Integer]
         )
         if max_field is None:
-            max_field = self.magnet_config[0]
+            max_field = self.magnet.max_field#self.magnet_config[0]
 
-        #TODO Test if it needs to be run to update Display
+        #Doesnt update Display may be obsolete
         self.target_field = Command(
             'FIELD?',
             'FIELD',
@@ -422,6 +422,7 @@ class PPMS(IEC60488):
     def field(self):
         #"""The field at sample position."""
         ## omit dataflag and timestamp
+        #TODO possibly integrate both to get reliable data
         #return self._query(('GETDAT? 4', (Integer, Float, Float)))[2]
         return self.magnet.field()
     @property
