@@ -629,9 +629,11 @@ class PPMS(IEC60488):
             time.sleep(self.magnet.Switch)#self.magnet_config[5])
         #Does this still work?
         while wait_for_stability:
-            status = self.system_status['magnet']
-            print(self.magnet.magnet_status())
-            if status in ('persistent, stable', 'driven, stable'):
+            #status = self.system_status['magnet']
+            status = self.magnet.magnet_status()
+            print(status)
+            print(self.field)
+            if status[0] == 1:# in ('persistent, stable', 'driven, stable'):
                 break
             time.sleep(delay)
 
