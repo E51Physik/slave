@@ -634,7 +634,7 @@ class PPMS(IEC60488):
             status = self.magnet.magnet_status()
             print(status)
             print(self.field)
-            if status[0] == 1:# in ('persistent, stable', 'driven, stable'):
+            if status[0] in (1,4):# in ('persistent, stable', 'driven, stable'):
                 break
             time.sleep(delay)
 
