@@ -347,7 +347,7 @@ class PPMS(IEC60488):
             [Float] * 5 + [Integer, Integer]
         )
         if max_field is None:
-            max_field = self.magnet.max_field#self.magnet_config[0]
+            max_field = self.magnet_config[0]
 
         #Doesnt update Display may be obsolete
         self.target_field = Command(
