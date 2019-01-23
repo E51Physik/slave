@@ -66,7 +66,7 @@ class Protocol:
                 rdata = data[4]
             elif data[0] == 0x4b:
                 data = struct.unpack('bbbbHH', msg.data)
-                rdata= data[4], data[5]
+                rdata= data[4]#, data[5]
             elif data[0] == 0x80:
                 data = struct.unpack('bbbbf', msg.data)
                 rdata=data[4]
