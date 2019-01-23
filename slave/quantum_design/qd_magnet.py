@@ -159,19 +159,19 @@ class HMPSU(Protocol):
         subid = 0x2 #23
         self.write(self.node, cobid, subid, rate, 'f')
         #TODO make it saver
-        if approach == 'linear':
-            ap = 0
         if approach == 'no overshoot':
             ap = 1
-        else:
+        if approach == 'oscillate':
             ap = 2
+        else:
+            ap = 0
         subid = 0x3 #2f
         self.write(self.node, cobid, subid, ap, 'b')
 
-        if mode == 'persistent':
-            m = 0
-        else:
+        if mode == 'driven':
             m = 1
+        else:
+            m = 0
         subid = 0x4 #2f
         self.write(self.node, cobid, subid, m, 'b')
         self.execute()
@@ -191,6 +191,3 @@ class HMPSU(Protocol):
         self.write(self.node, 0x6003, 0x0, 0, 'b')
         self.disconnect()
         del self
-
-#magnet = HMPSU()
-#magnet.shutdown()
