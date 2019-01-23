@@ -582,10 +582,10 @@ class PPMS(IEC60488):
         if not hasattr(measure, '__call__'):
             raise TypeError('measure parameter not callable.')
         self.set_field(field, rate, approach='linear', mode=mode, wait_for_stability=False)
-        if self.system_status['magnet'].startswith('persist'):
+        if self.magnet.magnet_status()[0] == 1:
             # The persistent switch takes some time to open. While it's opening,
             # the status does not change.
-            switch_heat_time = datetime.timedelta(seconds=self.magnet_config[5])
+            switch_heat_time = datetime.timedelta(seconds=self.magnet.Switch)#self.magnet_config[5])
             start = datetime.datetime.now()
             while True:
                 now = datetime.datetime.now()
@@ -594,8 +594,8 @@ class PPMS(IEC60488):
                 measure()
                 time.sleep(delay)
         while True:
-            status = self.system_status['magnet']
-            if status in ('persistent, stable', 'driven, stable'):
+            status = self.magnet.magnet_status()[0]
+            if status in (1,4):
                 break
             measure()
             time.sleep(delay)
