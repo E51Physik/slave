@@ -422,8 +422,8 @@ class PPMS(IEC60488):
     def field(self):
         #"""The field at sample position."""
         ## omit dataflag and timestamp
-        return self._query(('GETDAT? 4', (Integer, Float, Float)))[2]
-        #return self.magnet.field()
+        #return self._query(('GETDAT? 4', (Integer, Float, Float)))[2]
+        return self.magnet.field()
     @property
     def system_status(self):
         """The system status codes."""
@@ -625,10 +625,11 @@ class PPMS(IEC60488):
         #TODO magnet_config
         if wait_for_stability and self.system_status['magnet'].startswith('persist'):
             # Wait until the persistent switch heats up.
-            time.sleep(self.magnet_config[5])
+            time.sleep(self.magnet.Switch)#self.magnet_config[5])
         #Does this still work?
         while wait_for_stability:
             status = self.system_status['magnet']
+            print(self.magnet_status())
             if status in ('persistent, stable', 'driven, stable'):
                 break
             time.sleep(delay)
