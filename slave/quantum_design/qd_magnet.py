@@ -158,11 +158,13 @@ class HMPSU(Protocol):
 
         subid = 0x2 #23
         self.write(self.node, cobid, subid, rate, 'f')
-
+        #TODO make it saver
         if approach == 'linear':
             ap = 0
-        else:
+        if approach == 'no overshoot':
             ap = 1
+        else:
+            ap = 2
         subid = 0x3 #2f
         self.write(self.node, cobid, subid, ap, 'b')
 
