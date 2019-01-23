@@ -422,8 +422,8 @@ class PPMS(IEC60488):
     def field(self):
         #"""The field at sample position."""
         ## omit dataflag and timestamp
-        #return self._query(('GETDAT? 4', (Integer, Float, Float)))[2]
-        return self.magnet.field()
+        return self._query(('GETDAT? 4', (Integer, Float, Float)))[2]
+        #return self.magnet.field()
     @property
     def system_status(self):
         """The system status codes."""
