@@ -623,7 +623,8 @@ class PPMS(IEC60488):
         self.target_field = field, rate, approach, mode
         self.magnet.set_field(field, rate, approach, mode, wait_for_stability, delay)
         #TODO magnet_config
-        if wait_for_stability and self.system_status['magnet'].startswith('persist'):
+        status = self.magnet.magnet_status()
+        if wait_for_stability and status[0] == 1:#self.system_status['magnet'].startswith('persist'):
             # Wait until the persistent switch heats up.
             time.sleep(self.magnet.Switch)#self.magnet_config[5])
         #Does this still work?
