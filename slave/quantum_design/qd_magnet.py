@@ -44,7 +44,6 @@ class Protocol:
                     break
                 else:
                     data = None
-            print(data)
             return data
         except Exception as e:
             print(e)
@@ -52,9 +51,9 @@ class Protocol:
     def decode(self, msg):
         try:
             data = struct.unpack('bbbbbbbb', msg.data)
-            canid = msg.arbitration_id
-            subid = data[3]
-            cobid = data[2] + data[1]
+            #canid = msg.arbitration_id
+            #subid = data[3]
+            #cobid = data[2] + data[1]
 
             if data[0] == 0x43 or data[0] == 0x80:
                 data = struct.unpack('bbbbf', msg.data)
@@ -73,7 +72,7 @@ class Protocol:
                 rdata=data[4]
             else:
                 rdata = None
-            return canid, cobid, subid, rdata #probaly only return rdata
+            return rdata#canid, cobid, subid, rdata #probaly only return rdata
         except Exception as e:
             print(e)
 
